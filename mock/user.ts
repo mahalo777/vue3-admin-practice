@@ -17,10 +17,10 @@ export function createFakeUserList() {
       email: '896226896@qq.com',
       auths: [],
       is_admin: 1,
-      dev_languages: 'JavaScript/Vue/React/Node/PHP',
-      blog_github: 'https://github.com/MaleWeb',
-      blog_juejin: 'https://juejin.cn/user/3016715636842622',
-      blog_zhihu: 'https://www.zhihu.com/people/blind_monk',
+      dev_languages: 'JavaScript/Vue/React',
+      blog_github: '',
+      blog_juejin: '',
+      blog_zhihu: '',
       role: 'admin',
     },
     {
@@ -36,10 +36,10 @@ export function createFakeUserList() {
       email: '8888@china.com',
       auths: [],
       is_admin: 0,
-      dev_languages: 'JavaScript/Vue/React/Node/PHP',
-      blog_github: 'https://github.com/MaleWeb',
-      blog_juejin: 'https://juejin.cn/user/3016715636842622',
-      blog_zhihu: 'https://www.zhihu.com/people/blind_monk',
+      dev_languages: 'JavaScript/Vue/React',
+      blog_github: '',
+      blog_juejin: '',
+      blog_zhihu: '',
       role: 'user',
     },
   ]
@@ -72,6 +72,20 @@ export default [
         return errorResult('不存在该用户')
       }
       return successResult({ token: checkUser.token })
+    },
+  },
+  {
+    url: '/user/table',
+    timeout: 200,
+    method: 'post',
+    response: () => {
+      // const token = getRequestToken(request)
+      // if (!token) return errorResult('Invalid token')
+      const checkUser = createFakeUserList()
+      if (!checkUser) {
+        return errorResult('未获得相应的用户信息')
+      }
+      return successResult(checkUser)
     },
   },
   {

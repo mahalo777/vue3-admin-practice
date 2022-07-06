@@ -1,77 +1,89 @@
 <template>
-  <div class="container">
-    <div class="logo">
-      <img :src="logo" width="240" />
+  <div class="login-container">
+    <div class="left-con">
+      <span>一些说明</span>
     </div>
-    <LoginBanner />
-    <div class="content">
-      <div class="content-inner">
-        <LoginForm />
-      </div>
-      <div class="footer">
-        <Footer />
-      </div>
+    <div class="login-form">
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        status-icon
+        :rules="rules"
+        label-width="120px"
+        class="form"
+        size="large"
+      >
+        <el-form-item label="账号" prop="account">
+          <el-input v-model="ruleForm.account" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="密码" prop="pass">
+          <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
+          <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import Footer from '/@/components/footer/index.vue'
-  import LoginBanner from './components/banner.vue'
-  import LoginForm from './components/login-form.vue'
-  import logo from '/@/assets/icons/svg/logo.svg'
+  import { reactive, ref } from 'vue'
+  import type { FormInstance } from 'element-plus'
 
-  const theme = localStorage.getItem('theme')
+  const ruleFormRef = ref<FormInstance>()
 
-  if (theme == 'dark') {
-    document.documentElement.classList.add('dark')
-    document.body.setAttribute('arco-theme', 'dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-    document.body.removeAttribute('arco-theme')
+  const ruleForm = reactive({
+    account: '',
+    pass: '',
+  })
+
+  const rules = reactive({
+    account: [{ required: true, message: '请输入账号' }],
+    pass: [{ required: true, message: '请输入密码' }],
+  })
+
+  const submitForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.validate((valid) => {
+      if (valid) {
+        console.log('submit!')
+      } else {
+        console.log('error submit!')
+        return false
+      }
+    })
+  }
+
+  const resetForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
   }
 </script>
 
 <style lang="less" scoped>
-  .container {
+  .login-container {
     display: flex;
+    justify-content: space-between;
     height: 100vh;
 
-    .banner {
-      width: 550px;
-      background: linear-gradient(163.85deg, #1d2129 0%, #00308f 100%);
-    }
-
-    .content {
-      position: relative;
-      display: flex;
+    .left-con {
       flex: 1;
+      background-image: url(/@/assets/images/login-bg.svg);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      background-position: 100%;
+    }
+
+    .login-form {
+      flex: 1;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      padding-bottom: 40px;
-    }
 
-    .footer {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-    }
-  }
-
-  .logo {
-    position: fixed;
-    top: 24px;
-    left: 22px;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-
-    &-text {
-      margin-right: 4px;
-      margin-left: 4px;
-      color: var(--color-fill-1);
-      font-size: 20px;
+      .form {
+        width: 400px;
+      }
     }
   }
 </style>
