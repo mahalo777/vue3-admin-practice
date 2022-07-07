@@ -1,30 +1,15 @@
 <template>
-  <router-view />
+  <div class="#app">
+    <Layout />
+    <div class="flex1">
+      <Header />
+      <router-view />
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
-  // import { useAppStore } from './store/modules/app'
-  // const appStore = useAppStore()
-
-  // provide('reload', reload)
-  // function reload() {
-  //   isRouterAlive.value = false
-  //   nextTick(() => (isRouterAlive.value = true))
-  // }
-
-  // const isRouterAlive = ref(true)
-
-  // watch(
-  //   () => appStore.title,
-  //   () => {
-  //     const title: string = appStore.title
-  //     document.title = title
-  //       ? `${title} - ${import.meta.env.VITE_APP_TITLE}`
-  //       : import.meta.env.VITE_APP_TITLE
-  //   },
-  //   {
-  //     immediate: true,
-  //   }
-  // )
+  import Layout from '/@/components/Layout/index.vue'
+  import Header from '/@/components/Header/index.vue'
 </script>
 
 <style>

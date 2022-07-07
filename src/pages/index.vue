@@ -1,10 +1,6 @@
-<script setup lang="ts">
-  import Header from '/@/components/Header/index.vue'
-</script>
+<script setup lang="ts"></script>
 <template>
-  <div class="dark:text-slate-400 dark:bg-slate-900">
-    <Header />
-  </div>
+  <div class="dark:text-slate-400 dark:bg-slate-900">1 </div>
 </template>
 
 <style lang="less" scoped>
