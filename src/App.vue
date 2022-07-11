@@ -1,23 +1,48 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container v-if="showMenu">
       <el-aside width="200px">
         <Layout />
       </el-aside>
       <el-container>
         <el-header>
-          <Header />
+          <TopHeader />
         </el-header>
         <el-main>
           <router-view />
         </el-main>
       </el-container>
     </el-container>
+    <router-view v-else />
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts">
   import Layout from '/@/components/Layout/index.vue'
-  import Header from '/@/components/Header/index.vue'
+  import TopHeader from '/@/components/Header/index.vue'
+
+  export default {
+    components: {
+      Layout,
+      TopHeader,
+    },
+    setup() {
+      const state = reactive({
+        showMenu: true,
+      })
+
+      const route = useRoute()
+      watch(
+        () => route.path,
+        () => {
+          state.showMenu = !route.path.includes('login')
+        },
+      )
+
+      return {
+        ...toRefs(state),
+      }
+    },
+  }
 </script>
 
 <style scoped lang="less">
@@ -27,6 +52,5 @@
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
     background-color: var(--color-bg-1);
-    display: flex;
   }
 </style>

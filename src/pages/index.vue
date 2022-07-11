@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="dark:text-slate-400 dark:bg-slate-900">1 </div>
+  <div class="dark:text-slate-400 dark:bg-slate-900">1----</div>
 </template>
 
 <style lang="less" scoped>
