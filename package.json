@@ -71,7 +71,6 @@
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-mkcert": "^1.7.1",
     "vite-plugin-mock": "^2.9.6",
-    "vite-plugin-pages": "^0.23.0",
     "vite-plugin-progress": "^0.0.2",
     "vite-plugin-restart": "^0.1.1",
     "vite-plugin-style-import": "^2.0.0",
