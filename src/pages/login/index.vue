@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="left-con">
-      <span>一些说明</span>
+      <div class="logo">Secret Garden</div>
     </div>
     <div class="login-form">
       <el-form
@@ -74,6 +74,13 @@
       background-repeat: no-repeat;
       background-size: auto 100%;
       background-position: 100%;
+
+      .logo {
+        padding: 100px;
+        color: #fff;
+        font-weight: 500;
+        font-size: 30px;
+      }
     }
 
     .login-form {

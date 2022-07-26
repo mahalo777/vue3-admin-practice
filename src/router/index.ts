@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import routes from 'virtual:generated-pages'
+import routes from './routes'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 

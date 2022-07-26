@@ -1,7 +1,7 @@
 <template>
   <div class="layout-con">
-    <div>请输入系统名字</div>
-    <el-menu default-active="2" :router="true">
+    <div class="logo">Secret Garden</div>
+    <el-menu default-active="1" :router="true" background-color="#222832" text-color="#fff">
       <template v-for="item in menus">
         <template v-if="item.subs">
           <el-sub-menu :index="item.index" :key="item.index">
@@ -44,19 +44,35 @@
       title: '系统首页',
     },
     {
-      index: '/basicChart',
-      title: '基础表单',
+      index: '/dashboard',
+      title: '仪表盘',
     },
     {
-      index: '/summary',
-      title: '基础表单',
+      index: '/features',
+      title: '功能',
       subs: [
         {
-          index: '/home',
-          title: '基本表单',
+          index: '/features/table',
+          title: '列表1',
+        },
+        {
+          index: '/features/table2',
+          title: '列表2',
         },
       ],
     },
   ]
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  .layout-con {
+    background-color: #222832;
+    height: 100vh;
+
+    .logo {
+      text-align: center;
+      padding: 20px 0;
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+</style>
