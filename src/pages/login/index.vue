@@ -13,11 +13,11 @@
         class="form"
         size="large"
       >
-        <el-form-item label="账号" prop="account">
-          <el-input v-model="ruleForm.account" autocomplete="off" />
+        <el-form-item label="账号" prop="username">
+          <el-input v-model="ruleForm.username" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" prop="pass">
-          <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
@@ -31,26 +31,29 @@
 <script setup lang="ts">
   import { reactive, ref } from 'vue'
   import type { FormInstance } from 'element-plus'
+  import { useUserStore } from '/@/store'
+  const router = useRouter()
 
   const ruleFormRef = ref<FormInstance>()
-
+  const userStore = useUserStore()
   const ruleForm = reactive({
-    account: '',
-    pass: '',
+    username: '',
+    password: '',
   })
 
   const rules = reactive({
-    account: [{ required: true, message: '请输入账号' }],
-    pass: [{ required: true, message: '请输入密码' }],
+    username: [{ required: true, message: '请输入账号' }],
+    password: [{ required: true, message: '请输入密码' }],
   })
 
-  const submitForm = (formEl: FormInstance | undefined) => {
+  const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    formEl.validate((valid) => {
+    await formEl.validate((valid) => {
       if (valid) {
-        console.log('submit!')
+        userStore.login(ruleForm).then(() => {
+          router.push('/home')
+        })
       } else {
-        console.log('error submit!')
         return false
       }
     })

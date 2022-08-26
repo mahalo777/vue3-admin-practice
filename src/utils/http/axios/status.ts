@@ -1,4 +1,6 @@
-export const showMessage = (status: number | string): string => {
+import { ElMessage } from 'element-plus'
+
+export const getMessage = (status: number | string): string => {
   let message = ''
   switch (status) {
     case 400:
@@ -38,4 +40,13 @@ export const showMessage = (status: number | string): string => {
       message = `连接出错(${status})!`
   }
   return `${message}，请检查网络或联系管理员！`
+}
+
+export const showMessage = (status: number | string) => {
+  if (typeof status === 'number') {
+    const msg = getMessage(status)
+    ElMessage.error(msg)
+  } else {
+    ElMessage.error(status)
+  }
 }

@@ -6,11 +6,11 @@ export function createFakeUserList() {
   return [
     {
       user_id: '3306',
-      user_name: 'blindmonk',
+      user_name: 'admin',
       real_name: '扫地盲僧',
       avatar: 'https://api.multiavatar.com/blindmonk.svg',
       desc: '达摩深寺扫地僧，盲崖盘坐思人生',
-      password: 'blindmonk',
+      password: '123456',
       token: 'P1DeqWBao0HTU47Q',
       organization: '某大型公司CTO',
       location: '中国',

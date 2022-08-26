@@ -2,11 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { isLogin } from '/@/utils/auth'
 
-routes.push({
-  path: '/',
-  redirect: '/login',
-})
 //导入生成的路由数据
 const router = createRouter({
   history: createWebHashHistory(),
@@ -15,7 +12,15 @@ const router = createRouter({
 
 router.beforeEach(async (_to, _from, next) => {
   NProgress.start()
-  next()
+  if (_to.path !== '/login') {
+    if (!isLogin()) {
+      next('/login')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 router.afterEach((_to) => {
