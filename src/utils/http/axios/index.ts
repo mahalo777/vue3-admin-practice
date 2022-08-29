@@ -11,16 +11,19 @@ axios.defaults.withCredentials = false
 axios.defaults.headers.common['token'] = getToken() || ''
 // 允许跨域
 axios.defaults.headers.post['Access-Control-Allow-Origin-Type'] = '*'
-axios.defaults.baseURL = import.meta.env.BASE_URL + ''
+
+const axiosInstance: AxiosInstance = axios.create({
+  baseURL: import.meta.env.BASE_URL + '',
+})
 
 // axios实例拦截响应
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     if (response.data.code !== 200) {
       ElMessage.error(response.data.message)
       return Promise.reject(response.data)
     }
-    return response.data?.result || {}
+    return response
   },
   // 请求失败
   (error: any) => {
@@ -35,4 +38,28 @@ axios.interceptors.response.use(
   },
 )
 
-export default axios
+const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
+  const conf = config
+  return new Promise((resolve) => {
+    axiosInstance
+      .request<any, AxiosResponse<IResponse>>(conf)
+      .then((res: AxiosResponse<IResponse>) => {
+        // resolve(res as unknown as Promise<T>);
+        const {
+          data: { result },
+        } = res
+        resolve(result as T)
+      })
+  })
+}
+
+export function get<T = any>(config: AxiosRequestConfig): Promise<T> {
+  return request({ ...config, method: 'GET' })
+}
+
+export function post<T = any>(config: AxiosRequestConfig): Promise<T> {
+  return request({ ...config, method: 'POST' })
+}
+
+export default request
+export type { AxiosInstance, AxiosResponse }
