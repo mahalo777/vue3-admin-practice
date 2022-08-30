@@ -52,11 +52,11 @@
       title: '功能',
       subs: [
         {
-          index: '/features/table',
-          title: '列表1',
+          index: '/userList',
+          title: '用户',
         },
         {
-          index: '/features/table2',
+          index: '/table2',
           title: '列表2',
         },
       ],

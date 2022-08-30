@@ -1,3 +1,4 @@
+// 最好按照模块分，但是项目小没必要
 export default [
   {
     path: '/',
@@ -25,29 +26,27 @@ export default [
     component: () => import('/@/pages/dashboard/index.vue'),
   },
   {
-    path: '/features',
-    name: 'features',
+    path: '/userList',
+    name: 'userList',
     meta: {
-      title: '功能',
+      title: '用户列表',
     },
-    component: () => import('/@/pages/features/table/index.vue'),
-    children: [
-      {
-        path: 'table',
-        name: 'table',
-        meta: {
-          title: '用户列表',
-        },
-        component: () => import('/@/pages/features/table/index.vue'),
-      },
-      {
-        path: 'table2',
-        name: 'table2',
-        meta: {
-          title: '列表2',
-        },
-        component: () => import('/@/pages/features/table2/index.vue'),
-      },
-    ],
+    component: () => import('/@/pages/features/user/list.vue'),
+  },
+  {
+    path: '/addUser',
+    name: 'addUser',
+    meta: {
+      title: '新增用户',
+    },
+    component: () => import('/@/pages/features/user/add.vue'),
+  },
+  {
+    path: '/table2',
+    name: 'table2',
+    meta: {
+      title: '列表2',
+    },
+    component: () => import('/@/pages/features/table2/index.vue'),
   },
 ]

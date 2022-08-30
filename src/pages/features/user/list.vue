@@ -2,13 +2,7 @@
   <div class="flex items-center justify-between">
     <div class="flex items-center">
       <div>权限：</div>
-      <el-select
-        v-model="role"
-        class="m-2"
-        placeholder="选择用户权限"
-        size="middle"
-        @change="getTableData"
-      >
+      <el-select v-model="role" class="m-2" placeholder="选择用户权限" @change="getTableData">
         <el-option
           v-for="item in roleArr"
           :key="item.value"
@@ -17,7 +11,7 @@
         />
       </el-select>
     </div>
-    <el-button type="primary">+新增</el-button>
+    <el-button type="primary" @click="addUser">+ 新增</el-button>
   </div>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="user_name" label="昵称" width="180" />
@@ -39,6 +33,7 @@
 
 <script lang="ts">
   import { getUserTable } from '/@/api/user/index'
+  import { useRouter } from 'vue-router'
 
   export default {
     setup() {
@@ -47,6 +42,8 @@
         role: '',
         roleArr: [],
       })
+
+      const router = useRouter()
 
       state.roleArr = [
         { value: 'admin', label: '管理员' },
@@ -61,9 +58,14 @@
       onMounted(() => {
         getTableData()
       })
+
+      const addUser = () => {
+        router.push({ path: '/addUser' })
+      }
       return {
         ...toRefs(state),
         getTableData,
+        addUser,
       }
     },
   }
