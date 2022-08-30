@@ -1,5 +1,5 @@
 // 权限问题后期增加
-import request from '/@/utils/http/axios'
+import request, { post } from '/@/utils/http/axios'
 enum URL {
   login = '/user/login',
   logout = '/user/logout',
@@ -27,6 +27,12 @@ export const login = (data: LoginData) => {
   })
 }
 
-// const getUserProfile = async () => get<UserState>({ url: URL.profile })
-// const logout = async () => post<LoginRes>({ url: URL.logout })
-// const getUserTable = async () => post<LoginRes>({ url: URL.table })
+export const getUserProfile = () => {
+  return request({
+    url: URL.profile,
+    method: 'get',
+  })
+}
+
+export const logout = () => post<LoginRes>({ url: URL.logout })
+export const getUserTable = () => post<LoginRes>({ url: URL.table })

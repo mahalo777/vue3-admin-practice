@@ -8,7 +8,7 @@ import { getToken } from '/@/utils/auth'
 axios.defaults.timeout = 5000
 // 表示跨域请求时是否需要使用凭证
 axios.defaults.withCredentials = false
-axios.defaults.headers.common['token'] = getToken() || ''
+axios.defaults.headers.common['authorization'] = getToken() || ''
 // 允许跨域
 axios.defaults.headers.post['Access-Control-Allow-Origin-Type'] = '*'
 

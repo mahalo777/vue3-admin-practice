@@ -32,6 +32,7 @@
   import { reactive, ref } from 'vue'
   import type { FormInstance } from 'element-plus'
   import { useUserStore } from '/@/store'
+  import { clearToken } from '/@/utils/auth'
   const router = useRouter()
 
   const ruleFormRef = ref<FormInstance>()
@@ -46,9 +47,11 @@
     password: [{ required: true, message: '请输入密码' }],
   })
 
-  const submitForm = async (formEl: FormInstance | undefined) => {
+  clearToken()
+
+  const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    await formEl.validate((valid) => {
+    formEl.validate((valid) => {
       if (valid) {
         userStore.login(ruleForm).then(() => {
           router.push('/home')

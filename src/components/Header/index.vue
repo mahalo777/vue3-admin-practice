@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { useUserStore } from '/@/store'
+
   export default {
     name: 'THeader',
     setup() {
@@ -17,9 +19,18 @@
         },
       )
 
+      const userStore = useUserStore()
+      userStore.getInfo()
+      const { user_name, avatar } = storeToRefs(userStore)
+
       return {
         ...toRefs(state),
+        user_name,
+        avatar,
       }
+    },
+    methods: {
+      ...mapActions(useUserStore, ['logout']),
     },
   }
 </script>
@@ -36,7 +47,17 @@
         >
       </el-breadcrumb>
     </div>
-    <div class="right-con">2</div>
+    <div>
+      <el-popover trigger="hover">
+        <template #reference>
+          <div class="flex">
+            <span>{{ user_name }}</span>
+            <img :src="avatar" class="w-8 h-8 ml-3" />
+          </div>
+        </template>
+        <div class="text-center" @click="logout">退出</div>
+      </el-popover>
+    </div>
   </div>
 </template>
 

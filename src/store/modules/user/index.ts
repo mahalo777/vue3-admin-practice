@@ -1,25 +1,18 @@
 import { defineStore } from 'pinia'
 import {
   login as userLogin,
-  // logout as userLogout,
-  // getUserProfile,
+  logout as userLogout,
+  getUserProfile,
   LoginData,
 } from '/@/api/user/index'
-import { setToken } from '/@/utils/auth'
+import { setToken, clearToken } from '/@/utils/auth'
 import { UserState } from './types'
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
     user_name: undefined,
     avatar: undefined,
-    organization: undefined,
-    location: undefined,
     email: undefined,
-    blogJuejin: undefined,
-    blogZhihu: undefined,
-    blogGithub: undefined,
-    profileBio: undefined,
-    devLanguages: undefined,
     role: '',
   }),
   getters: {
@@ -34,23 +27,22 @@ export const useUserStore = defineStore('user', {
     //     resolve(this.role)
     //   })
     // },
-    // // 设置用户的信息
-    // setInfo(partial: Partial<UserState>) {
-    //   this.$patch(partial)
-    // },
+    // 设置用户的信息
+    setInfo(partial: Partial<UserState>) {
+      this.$patch(partial)
+    },
     // // 重置用户信息
-    // resetInfo() {
-    //   this.$reset()
-    // },
-    // // 获取用户信息
-    // async info() {
-    //   const result = await getUserProfile()
-    //   this.setInfo(result)
-    // },
+    resetInfo() {
+      this.$reset()
+    },
+    // 获取用户信息
+    async getInfo() {
+      const result = await getUserProfile()
+      this.setInfo(result)
+    },
     // 异步登录并存储token
     async login(loginForm: LoginData) {
       const result = await userLogin(loginForm)
-      console.log('----res')
       const token = result?.token
       if (token) {
         setToken(token)
@@ -58,12 +50,12 @@ export const useUserStore = defineStore('user', {
       return result
     },
     // Logout
-    // async logout() {
-    //   await userLogout()
-    //   this.resetInfo()
-    //   clearToken()
-    //   // 路由表重置
-    //   // location.reload();
-    // },
+    async logout() {
+      await userLogout()
+      this.resetInfo()
+      clearToken()
+      // 路由表重置
+      location.reload()
+    },
   },
 })
