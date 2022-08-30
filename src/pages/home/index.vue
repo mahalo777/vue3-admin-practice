@@ -1,5 +1,5 @@
 <template>
-  <div>首页广告位招租</div>
+  <div>不知道写什么的首页</div>
 </template>
 
 <script lang="ts" setup></script>

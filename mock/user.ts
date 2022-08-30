@@ -11,7 +11,7 @@ export function createFakeUserList() {
       avatar: 'https://api.multiavatar.com/blindmonk.svg',
       password: '123',
       token: 'P1DeqWBao0HTU47Q',
-      email: '896226896@qq.com',
+      email: 'wenny333333@163.com',
       auths: [],
       is_admin: 1,
       role: 'admin',

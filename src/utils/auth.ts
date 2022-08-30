@@ -4,7 +4,7 @@ const isLogin = () => {
   return !!localStorage.getItem(TokenKey)
 }
 const getToken = () => {
-  return localStorage.getItem(TokenKey)
+  return localStorage.getItem(TokenKey) || ''
 }
 const setToken = (token: string) => {
   localStorage.setItem(TokenKey, TokenPrefix + token)

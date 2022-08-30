@@ -36,7 +36,7 @@ export default [
         path: 'table',
         name: 'table',
         meta: {
-          title: '列表1',
+          title: '用户列表',
         },
         component: () => import('/@/pages/features/table/index.vue'),
       },
