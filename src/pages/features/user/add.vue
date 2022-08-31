@@ -4,122 +4,95 @@
     :model="ruleForm"
     :rules="rules"
     label-width="120px"
-    class="demo-ruleForm"
-    :size="formSize"
     status-icon
+    class="w-100"
   >
-    <el-form-item label="Activity name" prop="name">
-      <el-input v-model="ruleForm.name" />
+    <el-form-item label="用户昵称" prop="user_name">
+      <el-input v-model="ruleForm.user_name" />
     </el-form-item>
-    <el-form-item label="Activity zone" prop="region">
-      <el-select v-model="ruleForm.region" placeholder="Activity zone">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
+    <el-form-item label="真实姓名" prop="real_name">
+      <el-input v-model="ruleForm.real_name" />
+    </el-form-item>
+    <el-form-item label="邮箱" prop="email">
+      <el-input v-model="ruleForm.email" />
+    </el-form-item>
+    <el-form-item label="角色" prop="role">
+      <el-select v-model="ruleForm.role" placeholder="请选择用户角色">
+        <el-option label="管理员" value="admin" />
+        <el-option label="普通用户" value="user" />
       </el-select>
     </el-form-item>
-    <el-form-item label="Activity count" prop="count">
-      <el-select-v2 v-model="ruleForm.count" placeholder="Activity count" :options="options" />
-    </el-form-item>
-    <el-form-item label="Activity type" prop="type">
-      <el-checkbox-group v-model="ruleForm.type">
-        <el-checkbox label="Online activities" name="type" />
-        <el-checkbox label="Promotion activities" name="type" />
-        <el-checkbox label="Offline activities" name="type" />
-        <el-checkbox label="Simple brand exposure" name="type" />
-      </el-checkbox-group>
-    </el-form-item>
-    <el-form-item label="Resources" prop="resource">
-      <el-radio-group v-model="ruleForm.resource">
-        <el-radio label="Sponsorship" />
-        <el-radio label="Venue" />
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item label="Activity form" prop="desc">
-      <el-input v-model="ruleForm.desc" type="textarea" />
-    </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">Create</el-button>
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+      <el-button type="primary" @click="submitForm(ruleFormRef)">{{
+        isEdit ? '保存' : '新建'
+      }}</el-button>
+      <el-button @click="resetForm(ruleFormRef)">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts" setup>
   import { reactive, ref } from 'vue'
-  import type { FormInstance, FormRules } from 'element-plus'
+  import { ElMessage, FormInstance, FormRules } from 'element-plus'
+  import { addUser, getUserById, updateUser } from '/@/api/user/index'
+  import { useRouter, useRoute } from 'vue-router'
 
-  const formSize = ref('default')
+  const router = useRouter()
+  const route = useRoute()
   const ruleFormRef = ref<FormInstance>()
-  const ruleForm = reactive({
-    name: 'Hello',
-    region: '',
-    count: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+  const state = reactive({
+    ruleForm: {
+      user_name: '',
+      real_name: '',
+      email: '',
+      role: '',
+    },
+    isEdit: route.query.id,
+  })
+  const { ruleForm, isEdit } = toRefs(state)
+
+  const getUserInfo = async () => {
+    if (route.query.id) {
+      const data = await getUserById({ user_id: route.query.id as string })
+      state.ruleForm = data
+    }
+  }
+  onMounted(() => {
+    getUserInfo()
   })
 
   const rules = reactive<FormRules>({
-    name: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    user_name: [
+      { required: true, message: '请输入用户名', trigger: 'blur' },
+      { min: 1, max: 5, message: '用户名长度为3-5', trigger: 'blur' },
     ],
-    region: [
+    real_name: [
+      { required: true, message: '请输入真实姓名', trigger: 'blur' },
+      { min: 1, max: 10, message: '真实姓名长度为1-10', trigger: 'blur' },
+    ],
+    email: [
+      { required: true, message: '请输入邮箱', trigger: 'blur' },
+      { min: 1, max: 20, message: '邮箱长度为1-20', trigger: 'blur' },
+    ],
+    role: [
       {
         required: true,
-        message: 'Please select Activity zone',
+        message: '请选择用户角色',
         trigger: 'change',
       },
     ],
-    count: [
-      {
-        required: true,
-        message: 'Please select Activity count',
-        trigger: 'change',
-      },
-    ],
-    date1: [
-      {
-        type: 'date',
-        required: true,
-        message: 'Please pick a date',
-        trigger: 'change',
-      },
-    ],
-    date2: [
-      {
-        type: 'date',
-        required: true,
-        message: 'Please pick a time',
-        trigger: 'change',
-      },
-    ],
-    type: [
-      {
-        type: 'array',
-        required: true,
-        message: 'Please select at least one activity type',
-        trigger: 'change',
-      },
-    ],
-    resource: [
-      {
-        required: true,
-        message: 'Please select activity resource',
-        trigger: 'change',
-      },
-    ],
-    desc: [{ required: true, message: 'Please input activity form', trigger: 'blur' }],
   })
 
   const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
       if (valid) {
-        console.log('submit!')
+        isEdit.value ? updateUser(ruleForm.value) : addUser(ruleForm.value)
+        ElMessage({
+          message: '操作成功',
+          type: 'success',
+        })
+        router.go(-1)
       } else {
         console.log('error submit!', fields)
       }
@@ -130,9 +103,4 @@
     if (!formEl) return
     formEl.resetFields()
   }
-
-  const options = Array.from({ length: 10000 }).map((_, idx) => ({
-    value: `${idx + 1}`,
-    label: `${idx + 1}`,
-  }))
 </script>
