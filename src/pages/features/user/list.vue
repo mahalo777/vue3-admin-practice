@@ -13,7 +13,8 @@
     </div>
     <el-button type="primary" @click="addUser">+ 新增</el-button>
   </div>
-  <el-table :data="tableData" style="width: 100%">
+  <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table-column type="selection" width="55" />
     <el-table-column prop="user_name" label="昵称" width="180" />
     <el-table-column prop="role" label="角色" width="180" />
     <el-table-column prop="email" label="邮箱" />
@@ -44,6 +45,7 @@
         tableData: [],
         role: '',
         roleArr: [],
+        selectedArr: [],
       })
 
       const router = useRouter()
@@ -78,12 +80,19 @@
       const edit = (user_id: string) => {
         router.push({ path: '/addUser', query: { id: user_id } })
       }
+
+      const handleSelectionChange = (data) => {
+        console.log(data)
+        state.selectedArr = data
+      }
+
       return {
         ...toRefs(state),
         getTableData,
         addUser,
         del,
         edit,
+        handleSelectionChange,
       }
     },
   }
