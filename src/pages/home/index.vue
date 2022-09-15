@@ -82,4 +82,87 @@
   }
 
   console.log(quickSort([8, 9, 12, 5, 6, 1, 6, 8, 0]))
+
+  // 深度优先
+  let objTree = {
+    index: 0,
+    children: [
+      {
+        index: 1,
+        children: [
+          {
+            index: 11,
+            children: [
+              {
+                index: 111,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: 2,
+      },
+      {
+        index: 3,
+        children: [
+          {
+            index: 33,
+            children: [
+              {
+                index: 333,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: 4,
+      },
+    ],
+  }
+
+  const BFS = (tree) => {
+    let node = tree
+    const stack = []
+    const result = []
+    stack.push(node)
+    while (stack.length) {
+      const current = stack.shift()
+      result.push(current.index)
+      if (current.children) {
+        stack.push(...current.children)
+      }
+    }
+    return result
+  }
+  console.log('BFS', BFS(objTree))
+
+  const DDFS = (node, result = []) => {
+    if (node) {
+      result.push(node.index)
+      if (node.children) {
+        for (let i = 0; i < node.children.length; i++) {
+          DDFS(node.children[i], result)
+        }
+      }
+    }
+    return result
+  }
+  console.log(DDFS(objTree))
+
+  const DFS = (node) => {
+    const result = []
+    const stack = []
+    stack.push(node)
+    while (stack.length) {
+      const item = stack.shift()
+      result.push(item.index)
+      if (item.children) {
+        stack.push(...item.children)
+      }
+    }
+    return stack
+  }
+  console.log('DFS', DFS(objTree))
 </script>
