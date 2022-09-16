@@ -59,7 +59,6 @@
   const fact = (x: number) => {
     return x <= 1 ? x : x * fact(x - 1)
   }
-
   console.log(fact(5))
 
   // 快速排序
@@ -80,7 +79,6 @@
     }
     return [...quickSort(minList), flag, ...quickSort(maxList)]
   }
-
   console.log(quickSort([8, 9, 12, 5, 6, 1, 6, 8, 0]))
 
   // 深度优先
@@ -160,7 +158,7 @@
       result.push(item.index)
       const children = item.children || []
       for (let i = children.length - 1; i >= 0; i--) {
-        stack.push(children[i])
+        stack.push(children[i]) // 逆序和栈的思维
       }
     }
     return result
@@ -168,7 +166,7 @@
   console.log('DFS2', DFS(objTree))
 
   // 贪心算法
-  const tan = () => {
+  const tanXin = () => {
     const fin_stations = []
     let states_needed = ['mt', 'wa', 'or', 'id', 'nv', 'ut', 'ca', 'az']
 
@@ -194,7 +192,7 @@
     }
     console.log('tan', fin_stations)
   }
-  tan()
+  tanXin()
 
   // 动态规划
   const dong = (str1, str2) => {
@@ -215,9 +213,79 @@
         }
       }
     }
-
     console.log(table[recordI][recordJ]) // 可以截取
   }
-
   console.log(dong('apple2234', 'clues2234'))
+
+  // 狄克斯特拉算法
+  const dikes = () => {
+    const graph = {
+      start: {
+        a: 6,
+        b: 2,
+      },
+      a: {
+        fin: 1,
+      },
+      b: {
+        a: 3,
+        fin: 5,
+      },
+      fin: {},
+    }
+
+    const costs = {
+      a: 6,
+      b: 2,
+      fin: Infinity,
+    }
+
+    const parents = {
+      a: 'start',
+      b: 'start',
+      fin: '',
+    }
+
+    const processed = []
+
+    const find_lowest_cost_node = (costs) => {
+      let l_cost = 9999
+      let l_cost_node = ''
+      for (let n in costs) {
+        if (costs[n] < l_cost && !processed.includes(n)) {
+          l_cost_node = n
+          l_cost = costs[n]
+        }
+      }
+      return l_cost_node
+    }
+
+    let node = find_lowest_cost_node(costs)
+    while (node) {
+      let cost = costs[node]
+      let neighbor = graph[node]
+      for (let item in neighbor) {
+        let new_cost = cost + neighbor[item]
+        if (costs[item] > new_cost) {
+          costs[item] = new_cost
+          parents[item] = node
+        }
+      }
+      processed.push(node)
+      node = find_lowest_cost_node(costs)
+    }
+
+    console.log('---', JSON.stringify(parents), costs)
+  }
+  dikes()
+
+  // 深度优先的循环实现,很有意思,倒序push保持顺序和递归
+  // 迪克斯特拉算法,始终找到和记录最便宜的节点
+  // 贪心算法,寻找局部最优解,企图以这种方式获取全局最优解,易于实现,运行速度快(NP完全问题、所有组合、交集)
+  // vue和react 深度优先和广度优先
+  // 新的数据结构: 堆、栈、队列、数组、链表、散列表、图、树
+  // 递归,被很多算法应用,如快速排序
+  // 如果不确定该如何高效解决,可以尝试分而治之(递归)或者动态规划;如果意识到根本没有高效的解决方案,可以转用贪心算法,找到近似答案
+  // 动态规划解决方案都涉及网格,单元格中的值通常是要优化的值.每个单元格都是一个子问题,将问题分解成子问题,再逐步解决大问题.
+  // 需要在给定约束条件下优化某种指标时,动态优化很有用;问题可以分解为离散子问题时,可以使用动态规划
 </script>
