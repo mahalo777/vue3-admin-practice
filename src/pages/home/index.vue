@@ -151,20 +151,21 @@
   }
   console.log(DDFS(objTree))
 
-  // const DFS = (node) => {
-  //   const result = []
-  //   const stack = []
-  //   stack.push(node)
-  //   while (stack.length) {
-  //     const item = stack.shift()
-  //     result.push(item.index)
-  //     if (item.children) {
-  //       stack.push(...item.children)
-  //     }
-  //   }
-  //   return stack
-  // }
-  // console.log('DFS', DFS(objTree))
+  const DFS = (node) => {
+    const result = []
+    const stack = []
+    stack.push(node)
+    while (stack.length) {
+      const item = stack.pop()
+      result.push(item.index)
+      const children = item.children || []
+      for (let i = children.length - 1; i >= 0; i--) {
+        stack.push(children[i])
+      }
+    }
+    return result
+  }
+  console.log('DFS2', DFS(objTree))
 
   // 贪心算法
   const tan = () => {
@@ -194,8 +195,8 @@
     console.log('tan', fin_stations)
   }
   tan()
-  // 动态规划
 
+  // 动态规划
   const dong = (str1, str2) => {
     let recordI = 0
     let recordJ = 0
