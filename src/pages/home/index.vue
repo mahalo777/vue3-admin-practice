@@ -151,18 +151,72 @@
   }
   console.log(DDFS(objTree))
 
-  const DFS = (node) => {
-    const result = []
-    const stack = []
-    stack.push(node)
-    while (stack.length) {
-      const item = stack.shift()
-      result.push(item.index)
-      if (item.children) {
-        stack.push(...item.children)
+  // const DFS = (node) => {
+  //   const result = []
+  //   const stack = []
+  //   stack.push(node)
+  //   while (stack.length) {
+  //     const item = stack.shift()
+  //     result.push(item.index)
+  //     if (item.children) {
+  //       stack.push(...item.children)
+  //     }
+  //   }
+  //   return stack
+  // }
+  // console.log('DFS', DFS(objTree))
+
+  // 贪心算法
+  const tan = () => {
+    const fin_stations = []
+    let states_needed = ['mt', 'wa', 'or', 'id', 'nv', 'ut', 'ca', 'az']
+
+    const stations = {}
+    stations['kone'] = ['id', 'nv', 'ut']
+    stations['ktwo'] = ['wa', 'id', 'mt']
+    stations['kthree'] = ['or', 'nv', 'ca']
+    stations['kfour'] = ['nv', 'ut']
+    stations['kfive'] = ['ca', 'az']
+
+    while (states_needed.length) {
+      let best_station = ''
+      let states_covered = []
+      for (let state in stations) {
+        const current_covered = stations[state].filter((i) => states_needed.includes(i))
+        if (current_covered.length > states_covered.length) {
+          states_covered = current_covered
+          best_station = state
+        }
+      }
+      fin_stations.push(best_station)
+      states_needed = states_needed.filter((i) => !states_covered.includes(i))
+    }
+    console.log('tan', fin_stations)
+  }
+  tan()
+  // 动态规划
+
+  const dong = (str1, str2) => {
+    let recordI = 0
+    let recordJ = 0
+
+    const table = []
+
+    for (let i = 0; i < str1.length; i++) {
+      table[i] = []
+      for (let j = 0; j < str2.length; j++) {
+        if (str1[i] === str2[j] && table[i - 1]) {
+          recordI = i
+          recordJ = j
+          table[i][j] = (table[i - 1][j - 1] || 0) + 1
+        } else {
+          table[i][j] = 0
+        }
       }
     }
-    return stack
+
+    console.log(table[recordI][recordJ]) // 可以截取
   }
-  console.log('DFS', DFS(objTree))
+
+  console.log(dong('apple2234', 'clues2234'))
 </script>
